@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+vector<vector<long long int>> printPascal(int n) 
+{
+     vector<long long int>vt;
+     vt.push_back(1);
+     vector<vector<long long int>>v;
+     v.push_back(vt);
+     if(n==1)
+     return v;
+     vt.push_back(1);
+     v.push_back(vt);
+     if(n==2)
+     return v;
+     while(n>2)
+     {
+        vector<long long int>vp;
+        vp.push_back(1);
+        for(int i=0;i<vt.size()-1;i++)
+        {
+            vp.push_back(vt[i]+vt[i+1]);
+        }
+        vp.push_back(1);
+        v.push_back(vp);
+        vt=vp;
+        n--;
+     }
+     return v;
+}
