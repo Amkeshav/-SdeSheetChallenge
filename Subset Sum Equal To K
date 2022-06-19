@@ -1,0 +1,24 @@
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+     vector<int>p(k+1,0),c(k+1,0);
+     p[0]=c[0]=1;
+     for(int i=1;i<=k;i++)
+     {
+         if(i==arr[0])
+         p[i]=c[i]=1;
+         else
+         p[i]=c[i]=0;
+     }
+    for(int i=1;i<n;i++)
+    {
+        for(int j=0;j<=k;j++)
+        {
+            int x=0;
+            if(j>=arr[i])
+            x=p[j-arr[i]];
+            int y=p[j];
+            c[j]=x|y;
+        }
+        p=c;
+    }
+    return p[k];
+}
