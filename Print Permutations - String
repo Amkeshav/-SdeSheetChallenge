@@ -1,0 +1,21 @@
+
+void fun(vector<string>& vs, string s, string cur)
+{
+    if(s.empty())
+    {
+        vs.push_back(cur);
+        return;
+    }
+    for(int i=0;i<s.length();i++)
+    {
+        string ns;
+        ns+=s.substr(0,i)+s.substr(i+1,s.length());
+        fun(vs,ns,cur+s[i]); 
+    }
+}
+vector<string> findPermutations(string &s) {
+    vector<string>vs;
+    string cur="";
+    fun(vs,s,cur);
+    return vs;
+}
