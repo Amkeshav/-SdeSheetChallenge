@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+void fun(vector<vector<int>>& v, vector<int>& arr, int i)
+{
+    if(i==-1)
+    {
+        vector<int>vt;
+        v.push_back(vt);
+        return;
+    }
+    fun(v,arr,i-1);
+    int n=v.size();
+    for(int j=0;j<n;j++)
+    {
+        vector<int>vt;
+        vt=v[j];
+        vt.push_back(arr[i]);
+        v.push_back(vt);
+    }
+}
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
+{
+    vector<vector<int>> v;
+    sort(arr.begin(),arr.end());
+    fun(v,arr,n-1);
+    set<vector<int>>s;
+    for(auto x:v)
+    s.insert(x);
+    v.clear();
+    for(auto it=s.begin();it!=s.end();it++)
+    v.push_back(*it);
+    return v;
+}
