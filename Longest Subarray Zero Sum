@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+int LongestSubsetWithZeroSum(vector < int > arr) {
+     int pre=0,r=0;
+     unordered_map<int,int>mp;
+    for(int i=0;i<arr.size();i++)
+    {
+        pre+=arr[i];
+        if(pre==0)
+        r=max(r,i+1);
+        if(mp.find(pre)!=mp.end())
+        r=max(r,i-mp[pre]);
+        else
+        mp[pre]=i;
+    }
+    return r;
+}
