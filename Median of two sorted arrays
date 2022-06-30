@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+double fun(vector<int>& a, vector<int>& b)
+{
+   int n=min(a.size(),b.size());
+   int l=0,h=n;
+   while(l<=h)
+   {
+       int i1=l+(h-l)/2;
+       int i2=(a.size()+b.size()+1)/2-i1;
+       int max1=INT_MIN;
+       if(i1!=0)
+       max1=a[i1-1];
+       int min1=INT_MAX;
+       if(i1!=a.size())
+       min1=a[i1];
+       int max2=INT_MIN;
+       if(i2!=0)
+       max2=b[i2-1]; 
+       int min2=INT_MAX;
+       if(i2!=b.size())
+       min2=b[i2];
+       if(max1<=min2 && max2<=min1)
+       {
+           if((a.size()+b.size())%2==0)
+           return (double)(max(max1,max2)+min(min1,min2))/2;
+           else
+           return (double)(max(max1,max2));
+       }
+       else if(max1>min2)
+       h=i1-1;
+       else
+       l=i1+1;
+   }
+}
+double median(vector<int> a, vector<int> b)
+{
+    if(a.size()<b.size())
+    return fun(a,b);
+    else
+    return fun(b,a);
+}
