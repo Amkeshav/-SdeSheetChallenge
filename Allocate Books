@@ -1,0 +1,31 @@
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{	long long l=0,h=0,r;
+	for(auto i:time)
+    h+=i;
+    while(l<=h) 
+    {
+        long long mid=l+(h-l)/2;
+        long long csum=0,p=n,i=0;
+        while(i<m)
+        {
+            csum+=time[i];
+            if(csum>mid)
+            {
+                p--;
+                if(p==0)
+                break;
+                csum=0;
+            }
+            else
+            i++;
+        }
+        if(p==0)
+        l=mid+1;
+        else
+        {
+            r=mid;
+            h=mid-1;
+        }
+    }
+ return r;
+}
