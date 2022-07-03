@@ -1,0 +1,39 @@
+/************************************************************
+
+    Following is the Binary Tree node structure:
+
+    class BinaryTreeNode
+    {
+    public :
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+
+************************************************************/
+void fun(vector<int>& v1, vector<int>&v2, vector<int>&v3, BinaryTreeNode<int> *root)
+{
+    if(root==NULL)
+    return;
+    v2.push_back(root->data);
+    fun(v1,v2,v3,root->left);
+    v1.push_back(root->data);
+    fun(v1,v2,v3,root->right);
+    v3.push_back(root->data);
+}
+vector<vector<int>> getTreeTraversal(BinaryTreeNode<int> *root){
+    vector<int>v1,v2,v3;
+    fun(v1,v2,v3,root);
+    vector<vector<int>>v;
+    v.push_back(v1);
+    v.push_back(v2);
+    v.push_back(v3);
+    return v;
+}
