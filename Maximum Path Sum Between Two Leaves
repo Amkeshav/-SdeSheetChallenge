@@ -1,0 +1,45 @@
+/************************************************************
+
+    Following is the Tree node structure
+	
+	template <typename T>
+    class TreeNode 
+    {
+        public : 
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) 
+        {
+            this -> val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+long long fun(TreeNode<int> *root, long long& sum)
+{
+    if(root==NULL)
+    return -1;
+    long long l=fun(root->left,sum);
+    long long r=fun(root->right,sum);
+    if(l==-1 && r==-1)
+    return root->val;
+    else if(l==-1 && r!=-1)
+    return r+root->val;
+    else if(l!=-1 && r==-1)
+    return l+root->val;
+    else
+    {
+        sum=max(sum,l+r+root->val);
+        return max(l,r)+root->val;
+    }
+}
+long long int findMaxSumPath(TreeNode<int> *root)
+{
+    long long sum=-1;
+    fun(root,sum);
+    return sum;
+}
