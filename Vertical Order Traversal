@@ -1,0 +1,58 @@
+/************************************************************
+
+Following is the Binary Tree node class
+    
+template <typename T = int>
+class TreeNode
+{
+public:
+    T data;
+    TreeNode<T> *left;
+    TreeNode<T> *right;
+
+    TreeNode(T val)
+    {
+        this->data = val;
+        left = NULL;
+        right = NULL;
+    }
+
+    ~TreeNode()
+    {
+        if (left != NULL)
+        {
+            delete left;
+        }
+        if (right != NULL)
+        {
+            delete right;
+        }
+    }
+};
+
+************************************************************/
+#include<bits/stdc++.h>
+vector<int> verticalOrderTraversal(TreeNode<int> *root)
+{
+   vector<int>v;
+   queue<pair<int,TreeNode<int>*>>q;
+   map<int,vector<int>>mp;
+   q.push({0,root});
+   while(!q.empty())
+   {
+       auto p=q.front();
+       q.pop();
+       mp[p.first].push_back(p.second->data);
+       if(p.second->left!=NULL)
+       q.push({p.first-1,p.second->left});
+       if(p.second->right!=NULL)
+       q.push({p.first+1,p.second->right});
+   }
+    for(auto it=mp.begin();it!=mp.end();it++)
+    {
+        vector<int>v1=it->second;
+        for(int i=0;i<v1.size();i++)
+        v.push_back(v1[i]);
+    }
+    return v;
+}
