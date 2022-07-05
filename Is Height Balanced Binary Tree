@@ -1,0 +1,41 @@
+/*************************************************************
+ 
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+    public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+int fun(bool& flag, BinaryTreeNode<int>* root)
+{
+    if(root==NULL)
+    return 0;
+    int l=fun(flag,root->left);
+    if(l==-1)
+    return l;
+    int r=fun(flag,root->right);
+    if(r==-1)
+    return r;
+    if(abs(l-r)>1)
+    {
+        flag=false;
+        return -1;
+    }
+    return max(l,r)+1;
+}
+bool isBalancedBT(BinaryTreeNode<int>* root) {
+    bool flag=true;
+    fun(flag,root);
+    return flag;
+}
