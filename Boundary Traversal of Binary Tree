@@ -1,0 +1,69 @@
+/************************************************************
+
+    Following is the Binary Tree node structure:
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+void fun1(vector<int>& v, TreeNode<int>* root)
+{
+    if(root==NULL || root->left==NULL && root->right==NULL)
+    return;
+    v.push_back(root->data);
+    if(root->left!=NULL)
+    fun1(v,root->left);
+    else
+    fun1(v,root->right);
+}
+
+void fun2(vector<int>& v, TreeNode<int>* root)
+{
+    if(root==NULL)
+    return;
+    if(root->left==NULL && root->right==NULL)
+    v.push_back(root->data);
+    fun2(v,root->left);
+    fun2(v,root->right);
+}
+
+void fun3(vector<int>& vr, TreeNode<int>* root)
+{
+    if(root==NULL || root->left==NULL && root->right==NULL)
+    return;
+    vr.push_back(root->data);
+    if(root->right!=NULL)
+    fun3(vr,root->right);
+    else
+    fun3(vr,root->left);
+}
+vector<int> traverseBoundary(TreeNode<int>* root){
+    vector<int>v,vr;
+    v.push_back(root->data);
+    if(root->left==NULL && root->right==NULL)
+    return v;
+    fun1(v,root->left);
+    fun2(v,root);
+    fun3(vr,root->right);
+    for(int i=vr.size()-1;i>=0;i--)
+    v.push_back(vr[i]);
+    return v;
+}
