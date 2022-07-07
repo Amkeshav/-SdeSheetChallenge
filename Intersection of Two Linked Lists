@@ -1,0 +1,60 @@
+#include <bits/stdc++.h> 
+/****************************************************************
+ 
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+
+int findIntersection(Node *firstHead, Node *secondHead)
+{
+    if(firstHead==NULL || secondHead==NULL)
+    return -1;
+    int x=1,y=1;
+    Node*curr1=firstHead,*curr2=secondHead;
+    while(curr1!=NULL)
+    {
+        x++;
+        curr1=curr1->next;
+    }
+    while(curr2!=NULL)
+    {
+        y++;
+        curr2=curr2->next;
+    }
+    int c1=0,c2=0;
+    if(x>y)
+    c1=x-y;
+    else
+    c2=y-x;
+    curr1=firstHead,curr2=secondHead;
+    while(c1>0)
+    {
+        c1--;
+        curr1=curr1->next;
+    }
+    while(c2>0)
+    {
+        c2--;
+        curr2=curr2->next;
+    }
+    while(curr1!=NULL && curr2!=NULL)
+    {
+        if(curr1==curr2)
+        return curr1->data;
+        curr1=curr1->next;
+        curr2=curr2->next;
+    }
+    return -1;
+}
