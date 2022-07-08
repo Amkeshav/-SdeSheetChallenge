@@ -1,0 +1,41 @@
+/************************************************************
+   
+   Following is the TreeNode class structure
+   
+   class TreeNode<T>
+   { 
+   public:
+        T data; 
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+   
+        TreeNode(T data) 
+  		{ 
+            this -> data = data; 
+            left = NULL; 
+            right = NULL; 
+        }
+   };
+   
+   
+ ************************************************************/
+#include<bits/stdc++.h>
+TreeNode<int>* fun(int& i, vector<int>& inOrder, vector<int>& postOrder, int l, int h, unordered_map<int,int>& mp)
+{
+    if(l>h)
+    return NULL;
+    TreeNode<int>*root=new TreeNode<int>(postOrder[i--]);
+    int j=mp[root->data];
+    root->right=fun(i,inOrder,postOrder,j+1,h,mp);
+    root->left=fun(i,inOrder,postOrder,l,j-1,mp);
+    return root;
+}
+
+TreeNode<int>* getTreeFromPostorderAndInorder(vector<int>& postOrder, vector<int>& inOrder) 
+{
+	unordered_map<int,int>mp;
+    for(int i=0;i<inOrder.size();i++)
+    mp[inOrder[i]]=i;
+    int i=postOrder.size()-1;
+    return fun(i,inOrder,postOrder,0,inOrder.size()-1,mp);
+}
