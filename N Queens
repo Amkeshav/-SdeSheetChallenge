@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+void fun(vector<vector<int>>&v, vector<int>&v1, unordered_set<int>&row, unordered_set<int>&lb, unordered_set<int>&ub, int c, int n)
+{
+    if(c==n)
+    {
+        vector<int>vt;
+        for(int i=0;i<v1.size();i++)
+        {
+            for(int j=0;j<v1[i];j++)
+            vt.push_back(0);
+            vt.push_back(1);
+            for(int j=v1[i]+1;j<n;j++)
+            vt.push_back(0); 
+        }
+        v.push_back(vt);
+        return;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(row.find(i)==row.end() && lb.find(i+c)==lb.end() && ub.find(c-i)==ub.end())
+        {
+            v1.push_back(i);
+            row.insert(i);
+            lb.insert(c+i);
+            ub.insert(c-i);
+            fun(v,v1,row,lb,ub,c+1,n);
+            v1.pop_back();
+            row.erase(i);
+            lb.erase(c+i);
+            ub.erase(c-i);
+        }
+    }
+}
+vector<vector<int>> solveNQueens(int n) {
+   vector<vector<int>>v;
+    vector<int>v1;
+    unordered_set<int>row,lb,ub;
+    fun(v,v1,row,lb,ub,0,n);
+    return v;
+}
