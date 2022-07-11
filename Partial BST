@@ -1,0 +1,34 @@
+/*************************************************************
+ 
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+    public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+bool fun(BinaryTreeNode<int> *root, int& x)
+{
+    if(root==NULL)
+    return false;
+    if(fun(root->left,x))
+    return true;
+    if(x>root->data)
+    return true;
+    x=root->data;
+    return fun(root->right,x);
+}
+bool validateBST(BinaryTreeNode<int> *root) {
+    int x=INT_MIN;
+    return !fun(root,x);
+}
