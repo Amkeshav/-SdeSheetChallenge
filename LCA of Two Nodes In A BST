@@ -1,0 +1,56 @@
+/************************************************************
+    Following is the Binary Search Tree node structure
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+
+TreeNode<int>* LCAinaBST(TreeNode<int>* root, TreeNode<int>* P, TreeNode<int>* Q)
+{
+	vector<int>v;
+    TreeNode<int>*curr=root,*ans=NULL;
+    while(curr)
+    {
+        v.push_back(curr->data);
+        if(curr->data==P->data)
+        break;
+        else if(curr->data>P->data)
+        curr=curr->left; 
+        else
+        curr=curr->right;
+    }
+    curr=root;
+    int i=0;
+    while(i<v.size() && curr)
+    {
+        if(v[i]==curr->data)
+        ans=curr;
+        if(curr->data==Q->data)
+        break;
+        else if(curr->data>Q->data)
+        curr=curr->left;
+        else
+        curr=curr->right;
+        i++;
+    }
+    return ans; 
+}
