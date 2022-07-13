@@ -1,0 +1,59 @@
+class Node{
+public:
+    int data;
+    Node*next;
+    Node (int x)
+    {
+        data=x;
+        next=NULL;
+    }
+};
+class Queue {
+    Node*f,*r;
+public:
+    Queue() {
+        f=NULL,r=NULL;
+    }
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    bool isEmpty() {
+        // Implement the isEmpty() function
+        return f==NULL;
+    }
+
+    void enqueue(int data) {
+        // Implement the enqueue() function
+        Node*temp=new Node(data);
+        if(!f)
+        {
+            f=temp;
+            r=f;
+            return;
+        }
+        r->next=temp;
+        r=temp;
+    }
+
+    int dequeue() {
+        // Implement the dequeue() function
+        if(!f)
+        return -1;
+        int x=f->data;
+        Node*temp=f;
+        if(f!=r) 
+        f=f->next;
+        else
+        f=r=NULL;
+        temp->next=NULL;
+        delete temp;
+        return x;
+    }
+
+    int front() {
+        // Implement the front() function
+        if(!f)
+        return -1;
+        return f->data;
+    }
+};
