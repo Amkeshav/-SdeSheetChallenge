@@ -1,0 +1,38 @@
+#include <bits/stdc++.h> 
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+    pair<int,int>p;
+	int r=0;
+    for(int i=0;i<n;i++)
+    {
+        r^=arr[i];
+        r^=(i+1);
+    }
+    int r1=0,r2=0;
+    r=r&(~(r-1));
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]&r)
+        r1^=arr[i];
+        else
+        r2^=arr[i];
+        if((i+1)&r)
+        r1^=(i+1);
+        else
+        r2^=(i+1);
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]==r1)
+        {
+            p.first=r2;
+            p.second=r1;
+            return p;
+        }
+    }
+    p.first=r1;
+    p.second=r2;
+    return p;
+    
+}
