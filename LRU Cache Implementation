@@ -1,0 +1,105 @@
+#include<bits/stdc++.h>
+class LRUCache
+{
+public:
+    class Node{
+    public:
+    int data,k;
+    Node*pre,*next;
+    Node(int x,int y)
+    {
+        k=x,data=y;
+        pre=next=NULL;
+    }
+};
+    Node*head,*tail;
+    int cap;
+    unordered_map<int,Node*>mp;
+    LRUCache(int capacity)
+    {
+        cap=capacity;
+        head=tail=NULL;
+    }
+
+    int get(int key)
+    {
+       if(mp.find(key)==mp.end())
+       return -1;
+       Node*temp=mp[key];
+       if(temp!=head)
+       {
+           temp->pre->next=temp->next;
+           if(temp->next)
+           temp->next->pre=temp->pre;
+           else
+           tail=temp->pre;
+           temp->pre=temp->next=NULL;
+           temp->next=head;
+           head->pre=temp;
+           head=temp;
+       }
+       return temp->data;
+    }
+
+    void put(int key, int value)
+    {
+        if(mp.find(key)!=mp.end())
+      {
+        Node*temp=mp[key];
+        if(temp!=head)
+        {
+           temp->pre->next=temp->next;
+           if(temp->next)
+           temp->next->pre=temp->pre;
+           else
+           tail=temp->pre;
+           temp->pre=temp->next=NULL;
+           temp->next=head;
+           head->pre=temp;
+           head=temp;
+        }
+           temp->data=value;
+           mp[key]=temp;
+      }
+        else
+        {
+            if(mp.size()==cap)
+            {
+                if(head==tail)
+                {
+                    mp.erase(head->k);
+                    mp[key]=head;
+                    head->k=key;
+                    head->data=value;
+                }
+                else
+                {
+                    Node*temp=tail;
+                    tail=tail->pre;
+                    temp->pre=NULL;
+                    tail->next=NULL;
+                    temp->next=head;
+                    head->pre=temp;
+                    head=temp; 
+                    mp.erase(head->k);
+                    head->k=key;
+                    head->data=value;
+                    mp[key]=head;
+                }
+            }
+            else
+            {
+                Node*temp=new Node(key,value);
+                mp[key]=temp;
+                if(head==NULL)
+                head=tail=temp;
+                else
+                {
+                    temp->next=head;
+                    head->pre=temp;
+                    head=temp;
+                }
+            }
+        }
+    }
+};
