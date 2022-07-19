@@ -1,0 +1,104 @@
+#include<bits/stdc++.h>
+class LFUCache
+{
+    class Node{
+      public: 
+        int k,data;
+        Node*pre,*next;
+        Node(int x,int y)
+        {
+            k=x,data=y;
+            pre=next=NULL;
+        }
+    };
+public:
+    unordered_map<int ,Node*>mp;
+    Node*head,*tail;
+    int cap;
+    LFUCache(int capacity)
+    {
+        cap=capacity;
+        head=tail=NULL;
+    }
+
+    int get(int key)
+    {
+        if(mp.find(key)==mp.end())
+        return -1;
+        if(head->k!=key)
+        {
+            Node*temp=mp[key];
+            temp->pre->next=temp->next;
+            if(temp->next)
+            temp->next->pre=temp->pre;
+            else
+            tail=temp->pre;
+            temp->pre=temp->next=NULL;
+            temp->next=head;
+            head->pre=temp;
+            head=temp;
+        }
+        return head->data;
+    }
+
+    void put(int key, int value)
+    {
+        if(mp.find(key)==mp.end())
+        {
+            if(mp.size()!=cap)
+            {
+                Node*temp=new Node(key,value);
+                mp[key]=temp;
+                if(!head)
+                head=tail=temp;
+                else
+                {
+                    temp->next=head;
+                    head->pre=temp;
+                    head=temp;
+                }
+            }
+            else
+            {
+                if(head==tail)
+                {
+                    mp.erase(head->k);
+                    head->k=key;
+                    head->data=value;
+                    mp[key]=head;
+                }
+                else
+                {
+                    Node*temp=tail;
+                    tail=tail->pre;
+                    tail->next=temp->pre=NULL;
+                    mp.erase(temp->k);
+                    mp[key]=temp;
+                    temp->k=key,temp->data=value;
+                    temp->next=head;
+                    head->pre=temp;
+                    head=temp;
+                }
+            }
+        }
+        else
+        {
+            if(head->k!=key)
+            {
+                Node*temp=mp[key];
+                temp->pre->next=temp->next;
+                if(temp->next)
+                temp->next->pre=temp->pre;
+                else
+                tail=temp->pre;
+                temp->pre=temp->next=NULL;
+                temp->next=head;
+                head->pre=temp;
+                head=temp; 
+            }
+            head->data=value;
+            mp.erase(head->k);
+            mp[key]=head;
+        }
+    }
+};
