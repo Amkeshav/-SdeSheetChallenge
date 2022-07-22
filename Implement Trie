@@ -1,0 +1,73 @@
+/*
+    Your Trie object will be instantiated and called as such:
+    Trie* obj = new Trie();
+    obj->insert(word);
+    bool check2 = obj->search(word);
+    bool check3 = obj->startsWith(prefix);
+ */
+#include<bits/stdc++.h>
+class Node{
+    public:
+    unordered_map<char,Node*>mp;
+    bool flag;
+    Node()
+    {
+        flag=false;
+    }
+    bool srch(char ch)
+    {
+        return mp.find(ch)==mp.end();
+    }
+    void set(char ch)
+    {
+        Node*curr=new Node();
+        mp[ch]=curr;
+    }
+    Node*get(char ch)
+    {
+        return mp[ch];
+    } 
+    
+};
+class Trie {
+public:
+    Node*root;
+    Trie() {
+        root=new Node();
+    }
+
+    void insert(string word) {
+        Node*curr=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(curr->srch(word[i]))
+            curr->set(word[i]);
+            curr=curr->get(word[i]);
+        }
+        curr->flag=true;
+    }
+
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        Node*curr=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(curr->srch(word[i]))
+            return false;
+            curr=curr->get(word[i]);
+        }
+        return curr->flag; 
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        Node*curr=root;
+        for(int i=0;i<prefix.length();i++)
+        {
+            if(curr->srch(prefix[i]))
+            return false;
+            curr=curr->get(prefix[i]);
+        }
+        return true; 
+    }
+};
