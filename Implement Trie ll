@@ -1,0 +1,61 @@
+class Node{
+    public:
+    Node*arr[26];
+    int ew,cp;
+    Node()
+    {
+        ew=cp=0;
+    }
+};
+class Trie{
+    private:
+    Node*root;
+    public:
+    Trie(){
+        root=new Node();
+    }
+
+    void insert(string &word){
+        Node*curr=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!curr->arr[word[i]-'a'])
+            curr->arr[word[i]-'a']=new Node();
+            curr=curr->arr[word[i]-'a'];
+            curr->cp++;
+        }
+        curr->ew++;
+    }
+
+    int countWordsEqualTo(string &word){
+        Node*curr=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!curr->arr[word[i]-'a'])
+            return 0;
+            curr=curr->arr[word[i]-'a'];
+        }
+        return curr->ew;
+    }
+
+    int countWordsStartingWith(string &word){
+        Node*curr=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!curr->arr[word[i]-'a'])
+            return 0;
+            curr=curr->arr[word[i]-'a'];
+        }
+        return curr->cp;
+    }
+
+    void erase(string &word){
+        Node*curr=root;
+        for(int i=0;i<word.length();i++)
+        {
+            curr=curr->arr[word[i]-'a'];
+            curr->cp--;
+        }
+        curr->ew--;
+    }
+};
