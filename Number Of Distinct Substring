@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+class Node{
+    public:
+    Node*arr[26];
+};
+int distinctSubstring(string &word) {
+    Node*root=new Node();
+    int c=0;
+    for(int i=0;i<word.length();i++)
+    {
+        Node*curr=root;
+        for(int j=i;j<word.length();j++)
+        {
+            if(!curr->arr[word[j]-'a'])
+            {
+                c++;
+                curr->arr[word[j]-'a']=new Node();
+            }
+            curr=curr->arr[word[j]-'a'];
+        }
+    }
+    return c;
+}
