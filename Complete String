@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+class Node{
+  public:
+    unordered_map<char,Node*>mp;
+    bool flag;
+    Node()
+    {
+        flag=false;
+    }
+};
+class trie{
+    private:
+    Node*root;
+    public:
+    trie()
+    {
+        root=new Node();
+    }
+    void insert(string s)
+    {
+        Node*curr=root;
+        for(int i=0;i<s.length();i++)
+        {
+            if(curr->mp.find(s[i])==curr->mp.end())
+            curr->mp[s[i]]=new Node();
+            curr=curr->mp[s[i]];
+        }
+        curr->flag=true;
+    }
+    void search(string s, string &res)
+    {
+        Node*curr=root;
+        for(int i=0;i<s.length();i++)
+        { 
+            curr=curr->mp[s[i]];
+            if(curr->flag==false)
+            return;
+        }
+        if(res.length()<s.length())
+        res=s;
+        else if(res.length()==s.length() && s<res)
+        res=s;
+    }
+};
+string completeString(int n, vector<string> &a){
+    trie obj;
+    for(int i=0;i<a.size();i++)
+    {
+        obj.insert(a[i]);
+    }
+    string res;
+    for(int i=0;i<a.size();i++)
+    {
+       obj.search(a[i],res); 
+    } 
+    if(res=="") 
+    return "None";
+    return res;
+}
