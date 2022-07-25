@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+struct Node{
+    Node*link[2];
+};
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &queries){
+	sort(arr.begin(),arr.end());
+    vector<pair<int,pair<int,int>>>vp;
+    for(int i=0;i<queries.size();i++)
+    {
+        vp.push_back({queries[i][1], {queries[i][0],i}});
+    }
+    sort(vp.begin(),vp.end());
+    vector<int>vr(queries.size(),-1);
+    Node*root=new Node();
+    Node*curr;
+    int i=0,j=0,n=arr.size(),m=queries.size();
+    while(j<m)
+    {
+        while(i<n && arr[i]<=vp[j].first)
+        {
+            curr=root;
+            int x=arr[i];
+            for(int k=31;k>=0;k--)
+        {
+            if(x&(1<<k))
+            {
+                if(!curr->link[1])
+                curr->link[1]=new Node();
+                curr=curr->link[1];
+            }
+            else
+            {
+                if(!curr->link[0])
+                curr->link[0]=new Node();
+                curr=curr->link[0];
+            }
+        } 
+            i++;
+        }
+        if(i!=0)
+        {
+            Node*curr=root;
+            int r=0;
+            int x=vp[j].second.first;
+        for(int k=31;k>=0;k--)
+        {
+            if(x&(1<<k))
+            {
+                if(curr->link[0])
+                {
+                    r|=(1<<k);
+                    curr=curr->link[0];
+                }
+                else
+                curr=curr->link[1];
+            }
+            else
+            {
+                if(curr->link[1])
+                {
+                    r|=(1<<k);
+                    curr=curr->link[1];
+                }
+                else
+                curr=curr->link[0];
+            }
+        }
+        
+            vr[vp[j].second.second]=r;
+        } 
+        j++;
+    }
+    return vr;
+}
