@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+int longestSubSeg(vector<int> &arr , int n, int k){
+    int j=0,tr=0,r=0;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]==1)
+        tr++;
+        else if(k>0)
+        {
+            k--;
+            tr++;
+        }
+        else
+        {
+            r=max(r,tr);
+            for(j;j<=i;j++)
+            {
+                if(arr[j]==0)
+                break;
+            }
+            tr=i-j;
+            j++;
+        }
+    }
+    return max(r,tr);
+}
