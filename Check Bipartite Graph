@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+bool dfs(int i, int p, vector<int> adj[], vector<int>& vis)
+{
+    if(p==1)
+    vis[i]=0;
+    else
+    vis[i]=1;
+    for(auto it:adj[i])
+    {
+        if(vis[it]==-1)
+        {
+            if(!dfs(it,vis[i],adj,vis))
+            return false;
+        }
+        else if(vis[it]==vis[i])
+        return false;
+    }
+    return true;
+}
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	vector<int> adj[edges.size()];
+    for(int i=0;i<edges.size();i++)
+    {
+        for(int j=0;j<edges[i].size();j++)
+        {
+            if(edges[i][j])
+            {
+                adj[i].push_back(j);
+                adj[j].push_back(i);
+            }
+        }
+    }
+    vector<int>vis(edges.size(),-1);
+    for(int i=0;i<edges.size();i++)
+    {
+        if(vis[i]==-1)
+        {
+            if(!dfs(i,1,adj,vis))
+            return false;
+        }
+    }
+    return true;
+}
