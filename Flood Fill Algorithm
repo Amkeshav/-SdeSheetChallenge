@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+void traverse(vector<vector<int>>& imaget, vector<vector<int>> &image, int x, int y, int& newc, int& oldc)
+{
+    image[x][y]=newc;
+    imaget[x][y]=1;
+    if(y-1>=0 && image[x][y-1]==oldc && imaget[x][y-1]==0)
+    traverse(imaget,image,x,y-1,newc,oldc);
+    if(y+1<image[x].size() && image[x][y+1]==oldc && imaget[x][y+1]==0)
+    traverse(imaget,image,x,y+1,newc,oldc);
+    if(x-1>=0 && image[x-1][y]==oldc && imaget[x-1][y]==0)
+    traverse(imaget,image,x-1,y,newc,oldc);
+    if(x+1<image.size() && image[x+1][y]==oldc && imaget[x+1][y]==0)
+    traverse(imaget,image,x+1,y,newc,oldc);
+}
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor)
+{
+    vector<vector<int>> imaget(image.size(),vector<int>(image[0].size(),0));
+    int oldc=image[x][y];
+    traverse(imaget,image,x,y,newColor,oldc);
+    return image;
+}
